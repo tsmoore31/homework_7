@@ -9,7 +9,7 @@ function gettingJSON(){
     if (document.querySelector("#location").value != ""){
         location = document.querySelector("#location").value;
    }
-
+   
     // Your code here.
     console.log("Location is : " + location);
 
@@ -18,12 +18,11 @@ function gettingJSON(){
     if (document.querySelector("input[name = temp]:checked")){
         format = document.querySelector("input[name = temp]:checked").value
     }
-
     // Your code here.
     console.log("Format is " + format);
 
     //set the query  
-    let query = "http://api.openweathermap.org/data/2.5/weather?q=" + location + "&units=" + format + "&appid=" + API_KEY;
+    let query = "https://api.openweathermap.org/data/2.5/weather?q=" + location + "&units=" + format + "&appid=" + API_KEY;
     // Your code here.  
     
     console.log("Query is :" + query);
@@ -33,8 +32,10 @@ function gettingJSON(){
     //need to update, location, highs and lows, 
     //the image, etc.
 
-    // Your code here.
 
+    let loc = document.querySelector("#loc");
+    let temp = document.querySelector('#temp');
+    let tempImg = document.querySelector('#tempImg');
 
     $.getJSON(query,function(json){
         //Use returned json to update the values of the three 
@@ -42,19 +43,10 @@ function gettingJSON(){
         //I would print the JSON to the console
         // Your code here.
         console.log(JSON.stringify(json));
-
-        let city = json.name;
-        let temp = json.main.temp;
-        let image = json.weather[0].icon;
-
-        document.getElementById("forecast").style.display = "block";
-
-        document.getElementById("tempImg").src = "http://openweathermap.org/img/w/" + image + ".png";
-        document.getElementById("tempImg").alt = json.weather[0].description;
-        document.getElementById("tempImg").title = json.weather[0].main;
-
-        document.getElementById("loc").innerHTML = city;
-        document.getElementById("temp").innerHTML = temp;
+        loc.innerHTML = json['name']
+        temp.innerHTML = json['main']['temp']
+        tempImg.src = "http://openweathermap.org/img/w/" + json['weather'][0]['icon'] + ".png"
+        tempImg.alt = "Weather Image"
         
     });
 }
